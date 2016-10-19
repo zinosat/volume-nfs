@@ -25,10 +25,18 @@ function start()
 	done
 	shift $(($OPTIND - 1))
 
-	# prepare /etc/exports
+	# prepare ganesha config
+	# set mountd port to 20048
+	cat <<-EOF >> /tmp/ganesha.conf
+	NFS_Core_Param
+	{
+		MNT_Port = 20048;
+	}
+	EOF
+	# assign unique export ids
 	id=1
-	squash="no_root_squash"
 	# if testing group permissions, need to squash
+	squash="no_root_squash"
 	if [ -v gid ] ; then
 		squash="root_id_squash"
 	fi
