@@ -35,8 +35,7 @@ function start()
 	}
 	EOF
 	# assign unique export ids
-	id=0
-  # TODO first is 0, tmpfs workaround
+	id=1
 	# if testing group permissions, need to squash
 	squash="no_root_squash"
 	if [ -v gid ] ; then
@@ -53,6 +52,8 @@ function start()
 		{
 			# Export Id (mandatory, each EXPORT must have a unique Export_Id)
 			Export_Id = $id;
+
+			Filesystem_Id = $id.$id;
 
 			# Exported path (mandatory)
 			Path = "$i";
@@ -79,13 +80,6 @@ function start()
 		echo "Serving $i"
 		id=$((id + 1))
 	done
-
-	# start rpcbind if it is not started yet
-	/usr/sbin/rpcinfo 127.0.0.1 > /dev/null; s=$?
-	if [ $s -ne 0 ]; then
-		echo "Starting rpcbind"
-		/usr/sbin/rpcbind -w
-	fi
 
 	/usr/sbin/rpc.statd --no-notify
 

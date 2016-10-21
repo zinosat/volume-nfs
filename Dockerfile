@@ -5,7 +5,7 @@ RUN dnf install -y tar gcc git cmake autoconf libtool bison flex make gcc-c++ kr
 	&& git clone --recursive https://github.com/nfs-ganesha/nfs-ganesha.git /nfs-ganesha \
 	&& cd /nfs-ganesha \
 	&& git reset --hard 0f55a9a97a4bf232fb0e42542e4ca7491fbf84ce \
-	&& cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_CONFIG=vfs_only src/ \
+	&& cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_CONFIG=vfs_only -D_NO_PORTMAPPER=ON src/ \
 	&& make \
 	&& make install \
 	&& dnf remove -y tar gcc git cmake autoconf libtool bison flex make gcc-c++ krb5-devel dbus-devel && dnf clean all

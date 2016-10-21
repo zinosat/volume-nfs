@@ -20,7 +20,7 @@ spec:
         privileged: true
       volumeMounts:
         - name: tmp
-          mountPath: /export
+          mountPath: /exports
           readOnly: false
   volumes:
     - name: tmp
