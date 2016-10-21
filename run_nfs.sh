@@ -31,10 +31,12 @@ function start()
 	NFS_Core_Param
 	{
 		MNT_Port = 20048;
+		NFS_PROTOCOLS = 4;
 	}
 	EOF
 	# assign unique export ids
-	id=1
+	id=0
+  # TODO first is 0, tmpfs workaround
 	# if testing group permissions, need to squash
 	squash="no_root_squash"
 	if [ -v gid ] ; then
@@ -53,10 +55,10 @@ function start()
 			Export_Id = $id;
 
 			# Exported path (mandatory)
-			Path = $i;
+			Path = "$i";
 
 			# Pseudo Path (required for NFS v4)
-			Pseudo = $i;
+			Pseudo = "$i";
 
 			# Required for access (default is None)
 			# Could use CLIENT blocks instead
@@ -64,6 +66,7 @@ function start()
 
 			Squash = $squash;
 			SecType = sys;
+			Protocols = 4;
 			# Exporting FSAL
 			FSAL {
 				Name = VFS;

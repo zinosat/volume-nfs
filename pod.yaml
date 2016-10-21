@@ -1,0 +1,28 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: nfs-provisioner
+spec:
+  containers:
+    - name: volume-nfs
+      image: wongma7/volume-nfs
+      ports:
+        - name: nfs
+          containerPort: 2049
+        - name: mountd
+          containerPort: 20048
+        - name: rpcbind
+          containerPort: 111
+        - name: rpcbind-udp
+          containerPort: 111
+          protocol: UDP
+      securityContext:
+        privileged: true
+      volumeMounts:
+        - name: tmp
+          mountPath: /export
+          readOnly: false
+  volumes:
+    - name: tmp
+      hostPath:
+        path: /tmp
