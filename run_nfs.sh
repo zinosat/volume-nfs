@@ -81,8 +81,6 @@ function start()
 		id=$((id + 1))
 	done
 
-	/usr/sbin/rpc.statd --no-notify
-
 	ganesha.nfsd -L /tmp/ganesha.log -f /tmp/ganesha.conf
 
 	echo "NFS started"
