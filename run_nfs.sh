@@ -6,7 +6,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#	http://www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,7 +31,6 @@ function start()
 	NFS_Core_Param
 	{
 		MNT_Port = 20048;
-		NFS_PROTOCOLS = 4;
 	}
 	EOF
 	# assign unique export ids
@@ -67,7 +66,6 @@ function start()
 
 			Squash = $squash;
 			SecType = sys;
-			Protocols = 4;
 			# Exporting FSAL
 			FSAL {
 				Name = VFS;
@@ -80,6 +78,13 @@ function start()
 		echo "Serving $i"
 		id=$((id + 1))
 	done
+
+	/usr/sbin/rpcinfo 127.0.0.1 > /dev/null; s=$?
+	if [ $s -ne 0 ]; then
+		echo "Starting rpcbind"
+		/usr/sbin/rpcbind -w
+	fi
+
 
 	ganesha.nfsd -L /tmp/ganesha.log -f /tmp/ganesha.conf
 
