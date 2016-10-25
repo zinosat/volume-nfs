@@ -31,6 +31,7 @@ function start()
 	NFS_Core_Param
 	{
 		MNT_Port = 20048;
+		NFS_PROTOCOLS = 3;
 	}
 	EOF
 	# assign unique export ids
@@ -66,6 +67,7 @@ function start()
 
 			Squash = $squash;
 			SecType = sys;
+			Protocols = 3;
 			# Exporting FSAL
 			FSAL {
 				Name = VFS;
